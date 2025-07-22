@@ -1,53 +1,72 @@
-# Project Maintenance Scripts
+# Essential Scripts Documentation
 
-This directory contains several automated scripts for maintaining and operating the Hyperledger Fabric Certificate Management System:
+This directory contains the core script for managing the Hyperledger Fabric Certificate Management System.
 
-## 🚀 Setup & Operation Scripts
+## Available Script
 
-### `reset_network.sh`
-**Purpose**: Complete network reset and restart (fixes 90% of issues)
-**When to use**: 
-- Network connectivity problems
-- After system reboot
-- When starting fresh
-
+### setup.sh
+**Purpose**: Complete system setup and network management
+**Usage**: 
 ```bash
-./reset_network.sh
+cd test-network
+../scripts/setup.sh [command]
 ```
 
-### `quick_start.sh`
-**Purpose**: Test system functionality and install dependencies
-**When to use**: 
-- After cloning the repository
-- To verify system status
+**Commands**:
+- `../scripts/setup.sh` - Full setup (network + chaincode + application)
+- `../scripts/setup.sh clean` - Clean up existing network
+- `../scripts/setup.sh test` - Test network connectivity  
+- `../scripts/setup.sh help` - Show help information
+
+**Description**: 
+- Comprehensive setup script that handles everything
+- Stops/cleans existing containers and resources
+- Starts fresh Hyperledger Fabric network with certchannel
+- Deploys cert_cc chaincode (Go-based certificate management)
+- Sets up application wallet with admin identities
+- Installs Node.js dependencies
+- Performs connectivity and functionality tests
+- Provides detailed status information
+
+**Features**:
+- ✅ Prerequisite checking (Docker, Node.js, npm)
+- ✅ Intelligent cleanup and resource management
+- ✅ Comprehensive error handling and reporting
+- ✅ Network health testing and validation
+- ✅ Color-coded output for easy reading
+- ✅ Detailed final status and next steps
+
+## Quick Start
 
 ```bash
-./quick_start.sh
+# Initial setup
+cd test-network
+../scripts/setup.sh
+
+# Start web application
+cd ../certificate-management-ui  
+npm start
 ```
 
-## 🧹 Cleanup & Maintenance Scripts
-
-### `cleanup_project.sh`
-**Purpose**: Remove temporary files and optimize project
-**When to use**: 
-- Weekly maintenance
-- Before committing to git
-- To free up disk space
+## Troubleshooting
 
 ```bash
-./cleanup_project.sh
+# Complete reset
+cd test-network
+../scripts/setup.sh clean
+../scripts/setup.sh
+
+# Test network health
+../scripts/setup.sh test
 ```
 
-### `final_cleanup.sh`
-**Purpose**: Comprehensive cleanup of all unused files
-**When to use**: 
-- Project finalization
-- Before distribution
-- Major cleanup
+## Requirements
 
-```bash
-./final_cleanup.sh
-```
+- Docker & Docker Compose
+- Node.js v16+
+- npm
+- Hyperledger Fabric binaries (in bin/)
+- bash shell
 
 ### `analyze_project.sh`
 **Purpose**: Analyze project structure and identify issues
