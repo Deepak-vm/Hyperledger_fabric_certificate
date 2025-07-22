@@ -4,7 +4,6 @@
 
 This project implements a **Digital Certificate Management System** using Hyperledger Fabric blockchain technology. The system provides a secure, decentralized platform for issuing, verifying, and managing digital certificates with role-based access control across multiple organizations.
 
-> **✅ Project Status**: Fully functional and optimized. Network connectivity issues resolved, project structure cleaned, and ready for production use.
 
 ## Quick Start
 
@@ -127,7 +126,7 @@ cd test-network
 # 4. Setup application wallet
 cd ../certificate-management-ui
 npm install
-node setupWallet.js
+npm run setup
 
 # 5. Start the application
 npm start
@@ -146,10 +145,16 @@ Hyperledger_fabric_certificate-main/
 │   ├── organizations/            # Crypto materials
 │   ├── scripts/                  # Core network scripts
 │   └── network.sh                # Network management
-├── certificate-management-ui/    # Web application
+├── certificate-management-ui/    # Web application (modular structure)
+│   ├── src/                      # Organized source code
+│   │   ├── config/               # Configuration files
+│   │   ├── routes/               # API route handlers
+│   │   ├── services/             # Business logic services
+│   │   └── utils/                # Utility functions
 │   ├── public/                   # Frontend assets
 │   ├── wallet/                   # Application identities
-│   ├── app.js                    # Main application
+│   ├── server.js                 # Main application server
+│   ├── setupWallet.js            # Wallet setup utility
 │   └── package.json              # Dependencies
 ├── builders/                     # Chaincode builders
 ├── scripts/                      # Essential scripts
@@ -159,14 +164,30 @@ Hyperledger_fabric_certificate-main/
 └── STRUCTURE.md                  # Detailed structure guide
 ```
 
+## Starting the Application
+
+```bash
+# Navigate to UI directory
+cd certificate-management-ui
+
 # Install dependencies
 npm install
+
+# Setup wallets for all organizations
+npm run setup
 
 # Start the application
 npm start
 ```
 
-The web interface will be available at: `http://localhost:3000`
+**Application will be available at:** `http://localhost:3000`
+
+### Available npm Scripts
+
+- `npm start` - Start the application server
+- `npm run setup` - Setup wallets for all organizations  
+- `npm run dev` - Start in development mode (with file watching)
+- `npm test` - Run tests (if available)
 
 ## Chaincode Functions
 
@@ -239,7 +260,6 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
   -c '{"function":"RevokeCertificate","Args":["cert001"]}'
 ```
 
-## Web Interface
 
 ### REST API Endpoints
 
@@ -250,6 +270,10 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 | `GET` | `/api/certificates/:id` | Get specific certificate | All orgs |
 | `POST` | `/api/certificates/:id/verify` | Verify a certificate | All orgs |
 | `DELETE` | `/api/certificates/:id` | Revoke a certificate | UniversityOrg only |
+| `POST` | `/api/connect/:org` | Connect to organization | All orgs |
+| `GET` | `/api/status` | Get API and blockchain status | All orgs |
+| `POST` | `/api/wallet/setup` | Setup wallets for all organizations | All orgs |
+| `GET` | `/health` | Health check endpoint | All orgs |
 
 ### Organization-Specific Features
 
@@ -259,8 +283,11 @@ The web interface adapts based on the organization:
 - **StudentOrg/VerifierOrg**: Read-only access with verify functionality
 
 ### Key Files
-- **Main App**: `certificate-management-ui/app.js`
-- **API Routes**: `certificate-management-ui/routes/assets.js`
+- **Main Server**: `certificate-management-ui/server.js`
+- **API Routes**: `certificate-management-ui/src/routes/api.js`
+- **Fabric Service**: `certificate-management-ui/src/services/fabricService.js`
+- **Wallet Utils**: `certificate-management-ui/src/utils/walletUtils.js`
+- **Configuration**: `certificate-management-ui/src/config/organizations.js`
 - **Frontend Logic**: `certificate-management-ui/public/js/app.js`
 - **Organization-specific UI**: `certificate-management-ui/public/js/fix.js`
 
@@ -319,21 +346,38 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 ## Project Structure
 
 ```
-Hyperledger_fabric_certificate-main/
+Hyperledger_fabric_certificate-main/                    # Hyperledger Fabric network
 ├── test-network/                    # Hyperledger Fabric network
 │   ├── network.sh                   # Network management script
 │   ├── deploy_test.sh              # Chaincode deployment script
 │   ├── chaincode/cert_cc/go/       # Certificate management chaincode
 │   ├── scripts/                    # Utility scripts
 │   └── organizations/              # Crypto material for orgs
-├── certificate-management-ui/      # Web interface
-│   ├── app.js                      # Express server
-│   ├── routes/assets.js            # API endpoints
+├── certificate-management-ui/      # Web interface (modular structure)
+│   ├── src/                        # Organized source code
+│   │   ├── config/                 # Configuration files
+│   │   │   └── organizations.js    # Organization and app configuration
+│   │   ├── routes/                 # API route handlers
+│   │   │   └── api.js              # Certificate management API routes
+│   │   ├── services/               # Business logic services
+│   │   │   └── fabricService.js    # Blockchain interaction service
+│   │   └── utils/                  # Utility functions
+│   │       └── walletUtils.js      # Wallet management utilities
 │   ├── public/                     # Frontend assets
-│   └── package.json               # Node.js dependencies
-├── bin/                           # Fabric binaries
-├── config/                        # Configuration files
-└── README.md                      # This file
+│   │   ├── index.html              # Main application page
+│   │   └── js/                     # Client-side JavaScript
+│   │       ├── app.js              # Frontend application logic
+│   │       └── fix.js              # Organization-specific features
+│   ├── wallet/                     # Blockchain identities
+│   ├── server.js                   # Main application server
+│   ├── setupWallet.js              # Wallet setup utility
+│   └── package.json                # Node.js dependencies
+├── bin/                            # Fabric binaries
+├── config/                         # Configuration files
+├── scripts/                        # Essential project scripts
+│   ├── setup.sh                    # Complete setup script
+│   └── SCRIPTS.md                  # Script documentation
+└── README.md                       # This file
 ```
 
 ## Troubleshooting
@@ -397,7 +441,7 @@ docker ps
 ```bash
 cd certificate-management-ui
 rm -rf wallet/
-node setupWallet.js
+npm run setup
 ```
 
 
@@ -412,43 +456,24 @@ node setupWallet.js
 
 ```bash
 # Backup important data
-tar -czf backup.tar.gz test-network/organizations certificate-management-ui/wallet
+tar -czf backup.tar.gz test-network/organizations certificate-management-ui/wallet certificate-management-ui/src
 
 # Restore from backup
 tar -xzf backup.tar.gz
 ```
 
-## Project Optimization
 
-This project has been optimized for production with:
+#### Directory Structure
+- **`src/config/`**: Organization configurations and app settings
+- **`src/routes/`**: API route handlers and endpoint definitions
+- **`src/services/`**: Business logic and blockchain interaction services
+- **`src/utils/`**: Utility functions and helper methods
+- **`server.js`**: Main application entry point (replaces `app.js`)
+- **`setupWallet.js`**: Simplified wallet setup using modular utilities
 
-✅ **Automated Setup**: One-click complete system setup  
-✅ **Clean Structure**: Removed duplicate and unnecessary files  
-✅ **Essential Scripts**: Only production-ready scripts remain  
-✅ **Error Handling**: Comprehensive troubleshooting and recovery  
-✅ **Documentation**: Updated and streamlined guides  
 
-### Removed Components
 
-- **Duplicate Files**: Removed certificate-management-ui/test-network/
-- **Redundant Scripts**: Consolidated multiple scripts into setup.sh
-- **Development Files**: Removed temporary, test, and development artifacts
-- **Unused Features**: Removed Org3 setup and unused configurations
 
-### Production-Ready Structure
-
-- **Single Setup Script**: `scripts/setup.sh` handles all operations
-- **Clean Directory Tree**: Only essential components remain
-- **Optimized Size**: Reduced project complexity and size
-- **Reliable Operation**: Tested and verified functionality
-
-## Performance Metrics
-
-- **Project Size**: ~400MB (optimized structure)
-- **Setup Time**: ~3-4 minutes (complete setup)
-- **Scripts**: 1 essential script (was 7+ scripts)
-- **Dependencies**: Minimal required components only
-- **Reliability**: 99% success rate with setup.sh
 
 ## Support
 
@@ -460,8 +485,6 @@ For issues and questions:
 4. Create an issue on GitHub
 
 
-
----
 
 
 

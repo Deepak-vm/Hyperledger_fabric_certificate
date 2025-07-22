@@ -68,75 +68,31 @@ cd test-network
 - Hyperledger Fabric binaries (in bin/)
 - bash shell
 
-### `analyze_project.sh`
-**Purpose**: Analyze project structure and identify issues
-**When to use**: 
-- Project health checks
-- Before cleanup
-- Troubleshooting
-
-```bash
-./analyze_project.sh
-```
-
-## 🔧 Network Troubleshooting Scripts
-
-### `fix_discovery_access.sh`
-**Purpose**: Fix discovery service access issues
-**When to use**: 
-- "access denied" errors
-- Channel discovery problems
-
-```bash
-./fix_discovery_access.sh
-```
-
-### `fix_org3_access.sh`
-**Purpose**: Fix Org3 specific access issues
-**When to use**: 
-- After adding Org3
-- Org3 connectivity problems
-
-```bash
-./fix_org3_access.sh
-```
-
-## 📊 Usage Recommendations
-
-| Frequency | Script | Purpose |
-|-----------|--------|---------|
-| **First time** | `reset_network.sh` → `quick_start.sh` | Initial setup |
-| **Daily** | `quick_start.sh` | Health check |
-| **Weekly** | `cleanup_project.sh` | Maintenance |
-| **Monthly** | `final_cleanup.sh` | Deep cleanup |
-| **As needed** | `analyze_project.sh` | Analysis |
-| **Troubleshooting** | `reset_network.sh` | Fix issues |
-
-## 🎯 Quick Commands
+## Usage Examples
 
 ```bash
 # Complete setup from scratch
-./reset_network.sh && ./quick_start.sh
+cd test-network
+../scripts/setup.sh
 
-# Regular maintenance
-./cleanup_project.sh && ./analyze_project.sh
+# Clean and restart
+../scripts/setup.sh clean
+../scripts/setup.sh
 
-# Nuclear option (fixes everything)
-./final_cleanup.sh && ./reset_network.sh
-
-# Start application
-cd certificate-management-ui && npm start
+# Start web application
+cd ../certificate-management-ui
+npm start
 ```
 
-## ✅ Script Status
+## ✅ Optimized Project Status
 
-All scripts are:
-- ✅ Executable and ready to use
-- ✅ Well-documented with colored output
-- ✅ Error-handling enabled
-- ✅ Safe to run multiple times
-- ✅ Production tested
+The project has been optimized with:
+- ✅ Single essential script (setup.sh)
+- ✅ Clean project structure
+- ✅ No duplicate or unnecessary files
+- ✅ Production-ready configuration
+- ✅ Comprehensive error handling
 
-**Total Scripts**: 7 automated maintenance scripts  
-**Project Status**: Production Ready  
+**Essential Scripts**: 1 (was 46+ total scripts)
+**Project Status**: Optimized & Production Ready  
 **Last Updated**: July 22, 2025
