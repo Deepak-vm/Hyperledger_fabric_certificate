@@ -387,24 +387,7 @@ rm -rf wallet/
 node setupWallet.js
 ```
 
-## Maintenance & Operations
 
-### Regular Maintenance
-
-1. **Weekly**: Run cleanup script
-   ```bash
-   ./cleanup_project.sh
-   ```
-
-2. **Monthly**: Full network reset
-   ```bash
-   ./reset_network.sh
-   ```
-
-3. **As needed**: Project analysis
-   ```bash
-   ./analyze_project.sh
-   ```
 
 ### Monitoring
 
@@ -441,26 +424,6 @@ This project has been optimized with:
 - **Query Response Time**: <1 second
 - **Network Latency**: <100ms (local deployment)
 
-## License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## Contributors
-
-- **Deepak-vm** - Project Creator & Maintainer
-
-## License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
 ## Support
 
 For issues and questions:
@@ -470,27 +433,11 @@ For issues and questions:
 3. Reset the network: `./reset_network.sh`
 4. Create an issue on GitHub
 
-## Acknowledgments
 
-- Hyperledger Fabric Community
-- Hyperledger Foundation
-- Contributors and maintainers
 
 ---
 
-## Project Status: ✅ Production Ready
 
-This Hyperledger Fabric Certificate Management System is fully functional and optimized for production use:
 
-- ✅ **Network Stability**: All connectivity issues resolved
-- ✅ **Optimized Structure**: Project size reduced from 460M to 406M
-- ✅ **Automated Scripts**: One-click setup and maintenance
-- ✅ **Comprehensive Documentation**: Step-by-step guides and troubleshooting
-- ✅ **Error Handling**: Robust error recovery and user guidance
-- ✅ **Clean Codebase**: All unused files removed and organized
 
-**Last Updated**: July 22, 2025  
-**Version**: 1.0 Production Ready  
-**Tested On**: Ubuntu 20.04+ with Docker 20.10+
 
-**Note**: This system is designed for educational and development purposes. For production deployment, additional security measures, monitoring, and scalability considerations should be implemented.
