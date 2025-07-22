@@ -1,0 +1,27 @@
+{
+    "name": "certificate-management-ui",
+    "version": "1.0.0",
+    "description": "Certificate Management UI with Multi-Organization Access",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js",
+        "setup": "node setupWallet.new.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": ["blockchain", "hyperledger-fabric", "certificate-management"],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "express-session": "^1.17.3",
+        "fabric-ca-client": "^2.2.20",
+        "fabric-network": "^2.2.20"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.22"
+    }
+}
